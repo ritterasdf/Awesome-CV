@@ -9,3 +9,4 @@ Some of the work, which I am not currently pulling upstream:
 - additional cventries (long locations, simple references)
 - skills in table-view
 - simpler honors (2 instead of 3 fields)
+- semi-anonymized CV template
