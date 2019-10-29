@@ -7,6 +7,8 @@
 % Author:
 % Claud D. Park <posquit0.bj@gmail.com>
 % http://www.posquit0.com
+% Modifications by Andreas Ritter <ritter.andreas@gmail.com>
+% https://github.com/ritterasdf
 %
 % Notes:
 % 1) This class file defines the structure and layout of the template file (cv.tex, resume.tex).
@@ -21,7 +23,7 @@
 %-------------------------------------------------------------------------------
 %                Identification
 %-------------------------------------------------------------------------------
-\ProvidesClass{awesome-cv}[2017/02/05 v1.6.1 Awesome Curriculum Vitae Class]
+\ProvidesClass{awesome-cv}[2019/10/29 v1.6.1-mod1 Awesome Curriculum Vitae Class]
 \NeedsTeXFormat{LaTeX2e}
 
 
