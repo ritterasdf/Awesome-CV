@@ -178,7 +178,7 @@
 %                Configuration for fonts
 %-------------------------------------------------------------------------------
 % Set the FontAwesome font to be up-to-date.
-\newfontfamily\FA[Path=\@fontdir]{FontAwesome}
+%\newfontfamily\FA[Path=\@fontdir]{FontAwesome} #this breaks the compilation 
 % Set font for header (default is Roboto)
 \newfontfamily\headerfont[
   Path=\@fontdir,
@@ -281,6 +281,7 @@
 \newcommand*{\firstname}[1]{\def\@firstname{#1}}
 \newcommand*{\lastname}[1]{\def\@lastname{#1}}
 \newcommand*{\familyname}[1]{\def\@lastname{#1}}
+\newcommand*{\drname}[1]{\def\@drname{#1}}
 \def\@familyname{\@lastname}
 
 % Define writer's address
@@ -466,7 +467,9 @@
   \end{minipage}
   \begin{minipage}[c]{\headertextwidth}
     \ifthenelse{\equal{#1}{L}}{\raggedright}{\ifthenelse{\equal{#1}{R}}{\raggedleft}{\centering}}
-    \headerfirstnamestyle{\@firstname}\headerlastnamestyle{{}\acvHeaderNameDelim\@lastname}%
+    \ifthenelse{\isundefined{\@drname}}{\headerfirstnamestyle{\@firstname}\headerlastnamestyle{{}\acvHeaderNameDelim\@lastname}%
+        }{
+        \headerfirstnamestyle{\@firstname}\headerlastnamestyle{{}\@lastname}\headerfirstnamestyle{{}\@drname}}%
     \\[\acvHeaderAfterNameSkip]%
     \ifthenelse{\isundefined{\@position}}{}{\headerpositionstyle{\@position\\[\acvHeaderAfterPositionSkip]}}%
     \ifthenelse{\isundefined{\@address}}{}{\headeraddressstyle{\@address\\[\acvHeaderAfterAddressSkip]}}%
@@ -626,6 +629,16 @@
   \end{tabular*}%
 }
 
+\newcommand*{\cventryLongLocation}[5]{
+  \setlength\tabcolsep{0pt}
+  \setlength{\extrarowheight}{0pt}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 5.5cm} R{5.5cm}}
+      \entrytitlestyle{#2} & \entrylocationstyle{#3} \\
+      \entrypositionstyle{#1} & \entrydatestyle{#4} \\
+    \multicolumn{2}{L{17cm}}{\descriptionstyle{#5}} \\
+  \end{tabular*}
+}
+
 % Define an environment for cvsubentry
 \newenvironment{cvsubentries}{%
   \begin{center}
@@ -674,8 +687,8 @@
   \vspace{-2.0mm}
   \begin{center}
     \setlength\tabcolsep{1ex}
-    \setlength{\extrarowheight}{0pt}
-    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} r L{\textwidth * \real{0.9}}}
+    \setlength{\extrarowheight}{5pt}
+    \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} R{3cm} L{13.5cm}}
 }{%
     \end{tabular*}
   \end{center}
@@ -699,6 +712,35 @@
   \vspace{-2mm}
 }
 
+%Define a simple environment to add references required for some European CVs
+\newenvironment{cvrefs}{
+  \vspace{\acvSectionContentTopSkip}
+  \vspace{-2mm}
+  \setlength\tabcolsep{1ex}
+    \setlength{\extrarowheight}{0pt}
+    \begin{tabular*}{\textwidth}{@{} l l}
+}{
+    \end{tabular*}
+}
+
+
+% Define one personal reference
+% Usage: \cvref{<name>}{<connection>}{<contact info>}
+\newcommand*{\cvref}[3]{
+	\skilltypestyle{#1} & \skillsetstyle{#2: #3}
+  \\
+}
+% references for academic publications
+\newcommand*{\wtfRef}[5]{
+  \vspace{\acvSectionContentTopSkip}
+  \vspace{-2mm}
+  \setlength\tabcolsep{0pt}
+  \setlength{\extrarowheight}{0pt}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{15cm} R{2cm}}
+      \multicolumn{2}{L{17cm}}{\entrytitlestyle{#2}} \\
+      \entrypositionstyle{#5} & \entrydatestyle{#4} \\
+  \end{tabular*}
+}
 
 %-------------------------------------------------------------------------------
 %                Commands for elements of Cover Letter
