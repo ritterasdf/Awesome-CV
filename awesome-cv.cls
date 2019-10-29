@@ -58,8 +58,10 @@
 \RequirePackage{fancyhdr}
 % Needed to manage colors
 \RequirePackage{xcolor}
-% Needed to use \ifxetex-\else-\fi statement
+% Needed to use \ifxetex-\else-\fi statement for XeTeX
 \RequirePackage{ifxetex}
+% Needed to use \if-\then-\else statement for LuaLatex
+\RequirePackage{ifluatex}
 % Needed to use \if-\then-\else statement
 \RequirePackage{xifthen}
 % Needed to use a toolbox of programming tools
@@ -67,11 +69,22 @@
 % Needed to change line spacing in specific environment
 \RequirePackage{setspace}
 % Needed to manage fonts
-\RequirePackage[quiet]{fontspec}
-% To support LaTeX quoting style
-\defaultfontfeatures{Ligatures=TeX}
+\ifxetex
+  \RequirePackage[quiet]{fontspec}
+  % To support LaTeX quoting style
+  \defaultfontfeatures{Ligatures=TeX}
+\else
+  \ifluatex
+    \RequirePackage[utf8]{luainputenc}
+    \RequirePackage[T1]{fontenc}
+  \else
+    \RequirePackage[T1]{fontenc}
+    % Replace by the encoding you are using
+    \RequirePackage[utf8]{inputenc}
+  \fi
+\fi
 % Needed to manage math fonts
-\RequirePackage{unicode-math}
+\RequirePackage[math-style=TeX]{unicode-math}
 % Needed to use icons from font-awesome
 % (https://github.com/posquit0/latex-fontawesome)
 \RequirePackage{fontawesome}
@@ -81,12 +94,14 @@
 % Needed to deal a paragraphs
 \RequirePackage{parskip}
 % Needed to deal hyperlink
-\RequirePackage[hidelinks,unicode]{hyperref}
-\hypersetup{%
+\RequirePackage{hyperref}
+\hypersetup{
   pdftitle={},
   pdfauthor={},
   pdfsubject={},
-  pdfkeywords={}
+  pdfkeywords={},
+  colorlinks=false,
+  allbordercolors=white
 }
 
 
@@ -260,6 +275,7 @@
 % Usage: \lastname{<lastname>}
 % Usage: \familyname{<familyname>}
 \newcommand*{\name}[2]{\def\@firstname{#1}\def\@lastname{#2}}
+\newcommand*{\nameDr}[3]{\def\@firstname{#1}\def\@lastname{#2}\def\@drname{#3}}
 \newcommand*{\firstname}[1]{\def\@firstname{#1}}
 \newcommand*{\lastname}[1]{\def\@lastname{#1}}
 \newcommand*{\familyname}[1]{\def\@lastname{#1}}
@@ -678,7 +694,7 @@
 }{%
   \end{itemize}
   \end{justify}
-  \vspace{-4.0mm}
+  \vspace{-2mm}
 }
 
 
